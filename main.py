@@ -1,6 +1,6 @@
 import psycopg2
 from datetime import datetime
-from creds.db import postgres as p
+from credentials.database import postgres as p
 
 if __name__ == "__main__":
     try:
