@@ -11,7 +11,8 @@
 ├── 📄 .gitignore              # Tells Git to ignore venv/, .env, and local database data
 ├── 📄 docker-compose.yml      # Orchestrates your local Postgres & pgAdmin containers
 ├── 📄 requirements.txt        # Backend Python dependencies (FastAPI, SQLAlchemy, etc.)
-│
+├── 📄 README.md               #
+|
 ├── 📁 backend/                # Everything Python/FastAPI lives here
 │   ├── 📄 main.py             # Entry point (initializes FastAPI app and includes routers)
 │   │
@@ -44,3 +45,13 @@
     └── 📁 templates/          # HTML structures
         ├── 📄 login.html      # Authentication screen
         └── 📄 index.html      # Main user dashboard interface
+```
+
+#### TO-DO
+[ ] change .env to secrets before deployment
+
+# Dependencies
+requirements.txt exists but actually only 3 pip installs are required:
+- pip install psycopg2-binary
+- pip install python-dotenv
+- pip install "fastapi[standard]"
