@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<style>
-    label {text-align: center;}
-    input {text-align: center;}
-</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/styles.css">
     <title>Antares</title>
 </head>
+
 <body>
-  <label for="username">Username:</label>
-  <input type="text" id="username" name="username"><br><br>
-  <label for="email">Email:</label>
-  <input type="text" id="email" name="email"><br><br>
-  <label for="pwd">Password:</label>
-  <input type="password" id="pwd" name="pwd"><br><br>
-  <input type="submit" value="Submit">
+    <h1>Antares</h1>
+    <form>
+        <label for="username" hidden="True">Username:</label>
+        <input type="text" id="username" name="username">
+        <label for="email" hidden="True">E-mail:</label>
+        <input type="email" id="email" name="email">
+        <label for="pwd" hidden="True">Password:</label>
+        <input type="password" id="pwd" name="pwd">
+        <input class="form-btn" type="submit" value="Register">
+    </form>
 </body>
+
 </html>
