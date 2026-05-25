@@ -34,6 +34,9 @@ input{
 }
 
 .form-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 40%;
     height: 60px;
     min-width: 120px;
@@ -45,6 +48,8 @@ input{
     line-height: 22px;
     border: 0px;
     cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 15px;
 }
 
 .form-btn:active {
