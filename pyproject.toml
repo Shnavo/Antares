@@ -1,0 +1,6 @@
+[tool.fastapi]
+title = "Antares API"
+version = "0.1.0"
+description = "API for Antares application"
+contact = { name = "Antares Team", email = "team@antares.com" }
+entrypoint = "backend.main:app"
