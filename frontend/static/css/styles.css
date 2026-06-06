@@ -11,9 +11,13 @@ body {
 }
 
 form {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
     height: 100%;
     background-color: mediumslateblue;
-    padding: 30px;
+    padding: 25px;
     border-radius: 16px;
     width: 100%;
     max-width: 280px;
@@ -34,6 +38,9 @@ input{
 }
 
 .form-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 40%;
     height: 60px;
     min-width: 120px;
@@ -45,6 +52,8 @@ input{
     line-height: 22px;
     border: 0px;
     cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 15px;
 }
 
 .form-btn:active {
