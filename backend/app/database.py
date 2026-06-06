@@ -1,4 +1,4 @@
-from app.config import Postgres as p
+from .config import Postgres as p
 from psycopg2.extensions import connection
 import psycopg2, contextlib
 from sqlalchemy import create_engine, URL
