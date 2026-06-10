@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, AfterValidator
+from typing import Annotated
+import random
+
+from fastapi import Query
 
 app = FastAPI()
 
@@ -66,9 +70,9 @@ async def read_file(file_path: str):
 fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
 
 
-@app.get("/items")
-async def read_items(skip: int = 0, limit: int = 10):
-    return fake_items_db[skip : skip + limit]
+# @app.get("/items")
+# async def read_items(skip: int = 0, limit: int = 10):
+#     return fake_items_db[skip : skip + limit]
 
 
 @app.get("/items/{item_id}")
@@ -95,7 +99,7 @@ class Item(BaseModel):
     name: str
     description: str | None = None
     price: float
-    tax: float | None = None
+    tax: float | None
 
 
 @app.post("/items/")
@@ -115,14 +119,71 @@ async def update_item(item_id: int, item: Item, q: str | None = None):
     return result
 
 
+# @app.get("/items/")
+# async def read_items(
+#     q: Annotated[str | None, Query(min_length=5)] = "fixedquery",
+# ):
+#     results: dict[str, list[dict[str, str]] | str] = {
+#         "items": [{"item_id": "Foo"}, {"item_id": "Bar"}]
+#     }
+#     if q:
+#         results.update({"q": q})
+#     return results
+
+
+# @app.get("/items/")
+# async def read_items(
+#     q: Annotated[
+#         list[str],
+#         Query(
+#             title="Search queries",
+#             description="List of search queries",
+#             alias="item-query",
+#             min_length=3,
+#             deprecated=True,
+#             include_in_schema=False,
+#         ),
+#     ] = ["foo", "bar"]
+# ):
+#     query_items = {"q": q}
+#     return query_items
+
+data = {
+    "isbn-9781529046137": "The Hitchhiker's Guide to the Galaxy",
+    "imdb-tt0371724": "The Hitchhiker's Guide to the Galaxy",
+    "isbn-9781439512982": "Isaac Asimov: The Complete Stories, Vol. 2",
+}
+
+
+def check_valid_id(id: str):
+    if not id.startswith(("isbn-", "imdb-")):
+        raise ValueError("Invalid ID, it must start with 'isbn-' or 'imdb-'")
+    return id
+
+
+@app.get("/items/")
+async def read_items(
+    id: Annotated[str | None, AfterValidator(check_valid_id)] = None,
+):
+    if id:
+        item = data.get(id, "Item not found")
+    else:
+        id, item = random.choice(list(data.items()))
+    return {"id": id, "item": item}
+
+
 if __name__ == "__main__":
     import requests
+    from pprint import pp
 
-    url = "http://127.0.0.1:8000"
-    headers = {"Content-Type": "application/json"}
-    data = {"name": 42, "price": 42.0, "description": "this is a good item"}
-    r = requests.post(f"{url}/items/", headers=headers, json=data)
-    print(r.raise_for_status)
+    print(list(data.items()))
 
-    get = requests.get("https://www.w3schools.com/python")
+    # url = "http://127.0.0.1:8000"
+    # headers = {"Content-Type": "application/json"}
+    # data = {"name": 42, "price": 42.0, "description": "this is a good item"}
+    # r = requests.post(f"{url}/items/", headers=headers, json=data)
+    # pp(r.json())
+    # print(r.status_code)
+
+    # get = requests.get("https://www.w3schools.com/python")
     # print(get.json())
