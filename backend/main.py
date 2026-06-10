@@ -4,7 +4,7 @@ from pydantic import BaseModel, AfterValidator
 from typing import Annotated
 import random
 
-from fastapi import Query
+from fastapi import Query, Path
 
 app = FastAPI()
 
@@ -75,14 +75,14 @@ fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"
 #     return fake_items_db[skip : skip + limit]
 
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: str, q: str | None = None, short: bool = False):
-    item = {"item_id": item_id}
-    if q:
-        item.update({"q": q})
-    if not short:
-        item.update({"description": "This is an amazing item that has a long description"})
-    return item
+# @app.get("/items/{item_id}")
+# async def read_item(item_id: str, q: str | None = None, short: bool = False):
+#     item = {"item_id": item_id}
+#     if q:
+#         item.update({"q": q})
+#     if not short:
+#         item.update({"description": "This is an amazing item that has a long description"})
+#     return item
 
 
 @app.get("/users/{user_id}/items/{item_id}")
@@ -170,6 +170,17 @@ async def read_items(
     else:
         id, item = random.choice(list(data.items()))
     return {"id": id, "item": item}
+
+
+@app.get("/items/{item_id}")
+async def read_item(
+    item_id: Annotated[int, Path(title="The ID of the item to get")],
+    q: Annotated[str | None, Query(alias="item-query")] = None,
+):
+    results: dict[str, int | str] = {"item_id": item_id}
+    if q:
+        results.update({"q": q})
+    return results
 
 
 if __name__ == "__main__":
